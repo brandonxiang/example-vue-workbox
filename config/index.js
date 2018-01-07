@@ -3,8 +3,10 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 
 const path = require('path')
+const workbox = require('./workbox')
 
 module.exports = {
+  workbox,
   dev: {
 
     // Paths

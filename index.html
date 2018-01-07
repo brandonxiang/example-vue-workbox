@@ -4,9 +4,37 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>example-vue-workbox</title>
+    <!-- Add to home screen for Android and modern mobile browsers -->
+    <link rel="manifest" href="/static/manifest.json">
+    <meta name="theme-color" content="#2874f0">
+    <!-- Add to home screen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="pwa-mpa">
+    <link rel="apple-touch-icon" href="/static/img/icons/apple-touch-icon-152x152.png">
+    <!-- Add to home screen for Windows -->
+    <meta name="msapplication-TileImage" content="/static/img/icons/msapplication-icon-144x144.png">
+    <meta name="msapplication-TileColor" content="#000000">
+    <% htmlWebpackPlugin.files.js.forEach(function(jsFilePath){ %>
+      <link rel="preload" href="<%= jsFilePath %>" as="script">
+    <% }); %>
+    <% htmlWebpackPlugin.files.css.forEach(function(cssFilePath){ %>
+      <link rel="preload" href="<%= cssFilePath %>" as="style">
+    <% }); %>
   </head>
   <body>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').then(registration => {
+            console.log('SW registered: ', registration);
+          }).catch(registrationError => {
+            console.log('SW registration failed: ', registrationError);
+          });
+        });
+      }
+    </script>
   </body>
 </html>
